@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MobileBattery {
+    uint256 public batteryPercentage;
+    uint256 public maxCharge;
+
+    event BatteryStatusChanged(uint256 newPercentage);
+ 
+    constructor() {
+        batteryPercentage = 100; 
+    }
+
+    function checkStatus(uint256 _batteryPercentage) external pure returns (string memory status) {
+        require(_batteryPercentage > 20, "Please plug in to charge");
+        status = "Battery status is good.";
+    }
+
+    function observeResponse(uint256 _batteryPercentage) external pure {
+        require(_batteryPercentage >= 0 && _batteryPercentage <= 100, "Invalid battery percentage");
+        if (_batteryPercentage < 15) {
+            revert("Brightness and sound are decreased due to low battery");
+        }
+    }
+
+    function setMaxCharge(uint256 _maxCharge) external {
+        assert(_maxCharge < 90);
+        maxCharge = _maxCharge;
+    }
+}
